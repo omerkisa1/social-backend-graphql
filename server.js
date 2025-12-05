@@ -4,20 +4,24 @@ import { buildSchema } from "graphql";
 import { ruruHTML } from "ruru/server";
 
 
-var schema = buildSchema(`
-    type Query {
-        hello: String
-        test: String
-    }
-`)
+const schema = buildSchema(`
+  type Query {
+    quoteOfTheDay: String
+    random: Float!
+    rollThreeDice: [Int]
+  }
+`);
 
 
 const root = {
-    hello(){
-        return "Hello test"
+    quoteOfTheDay(){
+        return Math.random() < 0.5 ? "Test true" : "test false";
     },
-    test(){
-        return "testing"
+    random(){
+        return Math.random();
+    },
+    rollThreeDice(){
+        return [1, 2, 3].map(() => 1 + Math.floor(Math.random() * 6));
     }
 }
 
