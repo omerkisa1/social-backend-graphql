@@ -5,18 +5,29 @@ import { ruruHTML } from "ruru/server";
 
 
 var schema = buildSchema(`
-    type Query
-    {hello: String}
-    `)
+    type Query {
+        hello: String
+        test: String
+    }
+`)
 
 
 const root = {
     hello(){
         return "Hello test"
+    },
+    test(){
+        return "testing"
     }
 }
 
 const app = express();
+
+app.get("/", (_req, res) => {
+  res.type("html");
+  res.end(ruruHTML({ endpoint: "/graphql" }));
+});
+
 app.all(
   "/graphql",
   createHandler({
@@ -27,9 +38,4 @@ app.all(
 
 app.listen(4000, () => {
   console.log("Running graphql: http://localhost:4000/graphql");
-});
-
-app.get("/", (_req, res) => {
-  res.type("html");
-  res.end(ruruHTML({ endpoint: "/graphql" }));
 });
